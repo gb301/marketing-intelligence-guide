@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Intelligence — SE Enablement Guide</title>
+<style>
+  :root {
+    --sf-blue: #0176d3;
+    --sf-blue-dark: #014486;
+    --sf-blue-light: #1b96ff;
+    --sf-teal: #06a59a;
+    --sf-purple: #9050e9;
+    --sf-orange: #fe9339;
+    --sf-red: #ba0517;
+    --sf-green: #2e844a;
+    --bg: #f3f3f3;
+    --bg-card: #ffffff;
+    --text: #181818;
+    --text-muted: #444;
+    --border: #d8d8d8;
+    --sidebar-w: 280px;
+    --header-h: 64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    height: var(--header-h);
+    background: var(--sf-blue-dark);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  header .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.3px;
+  }
+  header .logo svg { width: 32px; height: 32px; }
+  header .badge {
+    background: var(--sf-blue-light);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+  }
+  header nav { margin-left: auto; display: flex; gap: 8px; }
+  header nav a {
+    color: rgba(255,255,255,.8);
+    font-size: 14px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background .15s;
+  }
+  header nav a:hover { background: rgba(255,255,255,.12); color:#fff; }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    padding-top: var(--header-h);
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  aside {
+    width: var(--sidebar-w);
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: var(--header-h);
+    bottom: 0;
+    overflow-y: auto;
+    padding: 16px 0 32px;
+    z-index: 90;
+  }
+  aside .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #888;
+    padding: 16px 20px 6px;
+  }
+  aside a {
+    display: block;
+    padding: 8px 20px 8px 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all .12s;
+    line-height: 1.4;
+  }
+  aside a:hover { background: #f0f4ff; color: var(--sf-blue); border-left-color: var(--sf-blue-light); }
+  aside a.active { background: #e8f1ff; color: var(--sf-blue-dark); border-left-color: var(--sf-blue); font-weight: 600; }
+  aside a.sub { padding-left: 32px; font-size: 13px; }
+
+  /* ── Main ── */
+  main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 900px;
+    padding: 40px 48px 80px;
+  }
+
+  /* ── Section pages ── */
+  .page { display: none; animation: fadeIn .2s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* ── Typography ── */
+  h1 { font-size: 32px; font-weight: 700; color: var(--sf-blue-dark); margin-bottom: 8px; line-height: 1.2; }
+  h2 { font-size: 22px; font-weight: 700; color: var(--sf-blue-dark); margin: 36px 0 12px; }
+  h3 { font-size: 17px; font-weight: 600; color: var(--text); margin: 24px 0 8px; }
+  h4 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #666; margin: 20px 0 6px; }
+  p { font-size: 15px; line-height: 1.7; color: var(--text-muted); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 20px; }
+  li { font-size: 15px; line-height: 1.7; color: var(--text-muted); margin-bottom: 4px; }
+  strong { color: var(--text); font-weight: 600; }
+  code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'Cascadia Code', 'Fira Mono', monospace; color: var(--sf-purple); }
+
+  /* ── Hero strip ── */
+  .hero {
+    background: linear-gradient(135deg, var(--sf-blue-dark) 0%, var(--sf-blue) 60%, var(--sf-teal) 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin-bottom: 32px;
+  }
+  .hero h1 { color: #fff; font-size: 28px; }
+  .hero p { color: rgba(255,255,255,.85); font-size: 15px; margin-top: 8px; }
+  .hero .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .hero .pill {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.35);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .hero .pill:hover { background: rgba(255,255,255,.35); }
+
+  /* ── Cards ── */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow .15s, transform .15s;
+    cursor: pointer;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); transform: translateY(-2px); }
+  .card .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; color: var(--sf-blue-dark); }
+  .card p { font-size: 13px; margin: 0; }
+
+  /* ── Callouts ── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .callout .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout.info { background: #e8f4ff; border-left: 4px solid var(--sf-blue-light); color: #0a3d6e; }
+  .callout.warning { background: #fff4e0; border-left: 4px solid var(--sf-orange); color: #7a4000; }
+  .callout.tip { background: #e6f7f4; border-left: 4px solid var(--sf-teal); color: #084f4a; }
+  .callout.important { background: #fde8ea; border-left: 4px solid var(--sf-red); color: #6b0010; }
+
+  /* ── Badge ── */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-right: 4px;
+  }
+  .tag.metered { background: #fde8ea; color: var(--sf-red); }
+  .tag.unmetered { background: #e6f7f4; color: var(--sf-teal); }
+  .tag.flex { background: #fff4e0; color: #7a4000; }
+  .tag.new { background: #f0e8ff; color: var(--sf-purple); }
+
+  /* ── Table ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: #f5f8ff; color: var(--sf-blue-dark); font-weight: 700; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--sf-blue-light); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+  tr:hover td { background: #fafbff; }
+
+  /* ── Diagram boxes ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .flow-step {
+    background: var(--sf-blue);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 100px;
+    white-space: nowrap;
+  }
+  .flow-step.teal { background: var(--sf-teal); }
+  .flow-step.purple { background: var(--sf-purple); }
+  .flow-step.orange { background: var(--sf-orange); color: var(--text); }
+  .flow-step.green { background: var(--sf-green); }
+  .flow-arrow { font-size: 20px; color: #aaa; padding: 0 6px; }
+
+  /* ── Accordion ── */
+  details {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  summary {
+    background: #f8f9fb;
+    padding: 13px 18px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sf-blue-dark);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  summary::after { content: '▸'; font-size: 12px; color: #aaa; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(90deg); }
+  details[open] summary { background: #eef3ff; }
+  details .detail-body { padding: 16px 20px; font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+  /* ── Progress / breadcrumb ── */
+  .breadcrumb { font-size: 13px; color: #888; margin-bottom: 24px; }
+  .breadcrumb span { color: var(--sf-blue); font-weight: 500; }
+
+  /* ── SE Tip box ── */
+  .se-tip {
+    background: linear-gradient(135deg, #f0e8ff 0%, #e8f1ff 100%);
+    border: 1px solid #c8aaff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .se-tip .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--sf-purple); margin-bottom: 6px; }
+  .se-tip p { font-size: 14px; color: #2a1860; margin: 0; }
+
+  /* ── Next/Prev navigation ── */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .page-nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sf-blue);
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .page-nav a:hover { background: #e8f1ff; }
+  .page-nav a.prev::before { content: '← '; }
+  .page-nav a.next::after { content: ' →'; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header>
+  <div class="logo">
+    <!-- Cloud icon -->
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="16" fill="#1b96ff"/>
+      <path d="M22 20H10a4 4 0 0 1 0-8 4 4 0 0 1 7.74-1.26A3.5 3.5 0 1 1 22 20z" fill="white"/>
+    </svg>
+    Marketing Intelligence
+  </div>
+  <span class="badge">SE Enablement</span>
+</header>
+
+<!-- ══════════════════ LAYOUT ══════════════════ -->
+<div class="layout">
+
+<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<aside id="sidebar">
+  <div class="section-label">Getting Started</div>
+  <a href="#" class="active" onclick="showPage('overview',this)">Overview</a>
+
+  <div class="section-label">Data Foundation</div>
+  <a href="#" onclick="showPage('unified-data-model',this)">Unified Data Model</a>
+  <a href="#" onclick="showPage('data-pipelines',this)">Data Pipelines</a>
+  <a href="#" onclick="showPage('harmonization',this)">Data Harmonization</a>
+  <a href="#" onclick="showPage('enrichments',this)">Data Enrichments</a>
+
+  <div class="section-label">Campaign & Measurement</div>
+  <a href="#" onclick="showPage('anchor-campaigns',this)">Anchor Campaigns</a>
+  <a href="#" onclick="showPage('attribution',this)">Attribution & MTA</a>
+  <a href="#" onclick="showPage('mmm',this)">Marketing Mix Modeling</a>
+  <a href="#" onclick="showPage('goals',this)">Measuring Goals</a>
+
+  <div class="section-label">Planning & Activation</div>
+  <a href="#" onclick="showPage('dashboards',this)">Dashboards & Reporting</a>
+  <a href="#" onclick="showPage('budget',this)">Budget Reallocation</a>
+  <a href="#" onclick="showPage('agentforce',this)">Agentforce in MI</a>
+
+  <div class="section-label">Implementation</div>
+  <a href="#" onclick="showPage('identity',this)">Identity Resolution</a>
+  <a href="#" onclick="showPage('licensing',this)">Licensing & Credits</a>
+  <a href="#" onclick="showPage('demo-tips',this)">Demo Tips</a>
+</aside>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main>
+
+<!-- ================================================================ -->
+<!-- PAGE: Overview -->
+<!-- ================================================================ -->
+<div class="page active" id="page-overview">
+  <div class="hero">
+    <h1>Marketing Intelligence</h1>
+    <p>Salesforce's unified measurement, attribution, and optimization platform — connecting paid, owned, and earned media data into a single intelligence layer that powers decisions.</p>
+    <div class="pills">
+      <span class="pill" onclick="showPage('unified-data-model',null)">Unified Data Model</span>
+      <span class="pill" onclick="showPage('attribution',null)">MTA Attribution</span>
+      <span class="pill" onclick="showPage('mmm',null)">Marketing Mix Modeling</span>
+      <span class="pill" onclick="showPage('budget',null)">Budget Optimization</span>
+      <span class="pill" onclick="showPage('agentforce',null)">Agentforce AI</span>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div><strong>Scope of this guide:</strong> This covers Marketing Intelligence (MI) — the measurement and analytics layer. It is distinct from Marketing Cloud Intelligence (formerly Datorama) and from Marketing Cloud Engagement (MCE) reporting.</div>
+  </div>
+
+  <h2>What is Marketing Intelligence?</h2>
+  <p>Marketing Intelligence is Salesforce's answer to fragmented marketing measurement. It sits on top of Data Cloud and provides a <strong>unified measurement layer</strong> that connects all your marketing signals — paid media APIs, owned channels (email, SMS, push), Salesforce CRM data — into a consistent, harmonized model.</p>
+  <p>The result is a platform where you can run multi-touch attribution, marketing mix modeling, budget optimization, and AI-driven recommendations from a single source of truth.</p>
+
+  <h2>Key Capabilities</h2>
+  <div class="card-grid">
+    <div class="card" onclick="showPage('data-pipelines',null)">
+      <div class="card-icon">🔌</div>
+      <h3>Data Pipelines</h3>
+      <p>Connect 50+ paid media APIs, owned channel data, and Salesforce-native data. ~15 pipelines avg. per customer.</p>
+    </div>
+    <div class="card" onclick="showPage('unified-data-model',null)">
+      <div class="card-icon">🏗️</div>
+      <h3>Unified Data Model</h3>
+      <p>Semantic Data Model (SDM) maps raw ad platform data into consistent dimensions: Campaign, Ad Set, Creative, and more.</p>
+    </div>
+    <div class="card" onclick="showPage('attribution',null)">
+      <div class="card-icon">🎯</div>
+      <h3>Multi-Touch Attribution</h3>
+      <p>Credit each touchpoint along the buyer journey. Requires timestamp, User ID, channel, and campaign tagging.</p>
+    </div>
+    <div class="card" onclick="showPage('mmm',null)">
+      <div class="card-icon">📈</div>
+      <h3>Marketing Mix Modeling</h3>
+      <p>Google Meridian open-source model — deployed and connected to MI's planning and optimization tools.</p>
+    </div>
+    <div class="card" onclick="showPage('budget',null)">
+      <div class="card-icon">💰</div>
+      <h3>Budget Optimization</h3>
+      <p>Scenario planning agent suggests how to reallocate budget across channels based on MMM output.</p>
+    </div>
+    <div class="card" onclick="showPage('agentforce',null)">
+      <div class="card-icon">🤖</div>
+      <h3>Agentforce</h3>
+      <p>AI agents surface insights, answer natural language marketing questions, and drive budget recommendations.</p>
+    </div>
+  </div>
+
+  <h2>Architecture at a Glance</h2>
+  <div class="flow">
+    <div class="flow-step">Raw Data Sources<br><small>APIs, Files, SF Native</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step teal">Data Pipelines<br><small>DLOs / Total Connect</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step purple">Harmonization<br><small>Patterns &amp; SDM</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step orange">Analytics Layer<br><small>MTA / MMM / Goals</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step green">Activation<br><small>Budget / Agentforce</small></div>
+  </div>
+
+  <h2>MI vs. What Customers Already Have</h2>
+  <table>
+    <tr><th>Surface</th><th>Without MI</th><th>With MI</th></tr>
+    <tr><td>MCE (Email)</td><td>Owned media performance only (MPI tab)</td><td>+ Paid channels, cross-channel attribution, MMM</td></tr>
+    <tr><td>MCAE (B2B Marketing)</td><td>SDM populated via d360 to C360</td><td>Full marketing data layer including paid</td></tr>
+    <tr><td>CRM</td><td>Campaign influence, closed opportunities</td><td>All funnel stages as conversion events in MTA</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>The <strong>Marketing Analytics tab</strong> is always present. Without MI, customers see <em>Owned Media Performance</em> only. With MI (and purchased pipelines), they see external/paid channels. Without MI you will never see paid performance.</div>
+  </div>
+
+  <div class="page-nav">
+    <div></div>
+    <a href="#" class="next" onclick="showPage('unified-data-model',null)">Unified Data Model</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Unified Data Model -->
+<!-- ================================================================ -->
+<div class="page" id="page-unified-data-model">
+  <div class="breadcrumb">Data Foundation › <span>Unified Data Model</span></div>
+  <h1>Unified Data Model</h1>
+  <p>The Unified Data Model is the semantic layer that sits between raw marketing data (DLOs) and the analytics surfaces MI exposes. It ensures that a "Campaign" from Google Ads means the same thing as a "Campaign" from Meta Ads.</p>
+
+  <h2>Semantic Data Model (SDM)</h2>
+  <p>The SDM is the core schema that MI deploys. It contains pre-built Data Model Objects (DMOs) for the most common marketing dimensions:</p>
+  <ul>
+    <li><strong>Campaigns</strong> — top-level marketing initiatives</li>
+    <li><strong>Ad Sets / Line Items</strong> — audience or placement groupings</li>
+    <li><strong>Creatives / Ads</strong> — individual ad units (format, size, variant)</li>
+    <li><strong>Channels</strong> — paid search, social, display, email, SMS, etc.</li>
+    <li><strong>Conversion Events</strong> — form fills, leads, purchases, opportunity stage changes</li>
+    <li><strong>Engagement Signals</strong> — clicks, opens, impressions (underpins MTA)</li>
+  </ul>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div><strong>C360 and MI:</strong> The Customer 360 Data Model (C360 SDM) is <em>only</em> deployed via MI. If a customer does not have MI, the C360 SDM is not available. MCE, MCAE, and MCN are backwards-compatible with the SDM by design — they populate the SDM automatically via Data Cloud.</div>
+  </div>
+
+  <h2>DLOs vs DMOs</h2>
+  <table>
+    <tr><th>Object Type</th><th>What it is</th><th>Created by</th></tr>
+    <tr><td><strong>DLO (Data Lake Object)</strong></td><td>Raw ingested data — unmapped, platform-specific schema</td><td>Data pipeline / connector</td></tr>
+    <tr><td><strong>DMO (Data Model Object)</strong></td><td>Mapped, harmonized object in the SDM</td><td>Automatic (MI manages this)</td></tr>
+    <tr><td><strong>SDM</strong></td><td>The full semantic model — the collection of all DMOs</td><td>MI deployment</td></tr>
+  </table>
+
+  <h2>Data Flow: Google Ads Example</h2>
+  <div class="flow">
+    <div class="flow-step">Raw API Pull<br><small>Multiple streams</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step teal">Data Transform<br><small>Split into dimensions</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step purple">DLOs<br><small>Output layer</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step green">DMOs<br><small>Auto-mapped to SDM</small></div>
+  </div>
+
+  <h2>External Email Providers</h2>
+  <p>Non-Salesforce email providers (e.g., Braze, Klaviyo, Mailchimp) follow a different path:</p>
+  <div class="flow">
+    <div class="flow-step">External ESP</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step teal">Data Cloud Ingestion</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step purple">Data Transform</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step green">DMO → SDM</div>
+  </div>
+
+  <div class="callout warning">
+    <span class="icon">⚠️</span>
+    <div>External email providers do <strong>not</strong> go through Total Connect. They route through Data Cloud. This is custom work — the MI data model is built specifically around Salesforce's email architecture.</div>
+  </div>
+
+  <h2>Native Salesforce Data Path</h2>
+  <p>When data already lands in Salesforce (CRM leads, opportunities, MCE sends), MI can reference it directly:</p>
+  <ul>
+    <li>Native SF data → recognized by the SDM — this is the simplest integration path</li>
+    <li>MCE email sends → flow automatically via Data Cloud into the C360 SDM and MI DMOs</li>
+    <li>No duplicate ingestion cost for data already in Salesforce</li>
+  </ul>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>Objects in the SDM <strong>cannot join across certain boundaries</strong> — this is intentional design to prevent query errors. Delivery data and conversion data come from the same source but are different report types (delivery = what the platform served; conversion = linked to the tracking tag).</div>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('overview',null)">Overview</a>
+    <a href="#" class="next" onclick="showPage('data-pipelines',null)">Data Pipelines</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Data Pipelines -->
+<!-- ================================================================ -->
+<div class="page" id="page-data-pipelines">
+  <div class="breadcrumb">Data Foundation › <span>Data Pipelines</span></div>
+  <h1>Data Pipelines</h1>
+  <p>Data pipelines are the connectors that pull raw marketing data from external platforms into MI's data layer. All ingestion in MI is <strong>batch</strong> — there is no real-time data ingestion.</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div><strong>Typical customer footprint:</strong> ~15 data pipelines on average. This can multiply significantly for multi-BU or multi-brand organisations, where each BU may have its own pipeline set.</div>
+  </div>
+
+  <h2>Ingestion Categories</h2>
+
+  <details open>
+    <summary>APIs — Paid Media Connectors</summary>
+    <div class="detail-body">
+      <p>Direct API connections to platforms such as Google Ads, Meta, LinkedIn, TikTok, Pinterest, and many more. These pull raw campaign, ad set, creative, impression, click, and spend data.</p>
+      <ul>
+        <li>Data is ingested as raw streams — not yet mapped to the SDM</li>
+        <li>Multiple streams per platform (e.g., Google Ads has campaign, ad group, keyword, search term streams)</li>
+        <li>Snapshots of up to <strong>365 days</strong> of historical data can be ingested per pipeline</li>
+      </ul>
+      <div class="callout warning">
+        <span class="icon">⚠️</span>
+        <div>The <strong>365-day snapshot limit</strong> is a platform constraint that is not clearly communicated in the UI. For multi-year backfills, customers must run two separate snapshots: e.g., 1 Jan–31 Dec 2024, then 1 Jan–31 Dec 2025.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Native DLO (Total Connect)</summary>
+    <div class="detail-body">
+      <p>Total Connect is MI's native connector framework for certain certified data sources. It handles schema mapping more automatically than raw API ingestion.</p>
+      <ul>
+        <li>Used for supported paid media channels where MI has a native connector</li>
+        <li>Does <strong>not</strong> apply to external email service providers — those go through Data Cloud</li>
+        <li>Preferred path for speed and reliability</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Native Salesforce Data</summary>
+    <div class="detail-body">
+      <p>Data already in the Salesforce ecosystem — CRM objects, MCE send/click/open events, MCAE activities — can be referenced directly by the SDM.</p>
+      <ul>
+        <li>MCE data flows automatically via Data Cloud into the SDM</li>
+        <li>No re-ingestion required for data that already lives in Salesforce</li>
+        <li>Work has been done in 2025 to ensure the SDM correctly understands native SF data</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>File-Based Ingestion</summary>
+    <div class="detail-body">
+      <p>For sources without a direct API connector (e.g., TV ratings, offline spend, custom data), flat files can be ingested via Total Connect Sources.</p>
+      <ul>
+        <li>Useful for TV/OOH spend data in MMM configuration</li>
+        <li>Can also support custom external factors for the MMM model</li>
+      </ul>
+    </div>
+  </details>
+
+  <h2>Restatements &amp; Sliding Windows</h2>
+  <p>Many ad platforms retroactively revise performance data (view-through conversions, deduplication, fraud adjustments). MI handles this through <strong>sliding windows</strong>.</p>
+
+  <table>
+    <tr><th>Setting</th><th>What it does</th><th>Example</th></tr>
+    <tr><td><strong>Span Days</strong></td><td>Defines the size of each incremental chunk in the sliding window</td><td>10 days span in a 10-day window = 1 chunk. 10-day window in 1-day chunks = 10 chunks.</td></tr>
+    <tr><td><strong>Sliding Window</strong></td><td>Moves the average window to absorb re-stated data</td><td>Avoids pipeline errors when platforms update historical numbers</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>The correct span day configuration varies by customer and data source. Setting it correctly prevents errors — if a customer asks "how do you handle restatements?", this is the answer. Data freshness via APIs handles ongoing restatements.</div>
+  </div>
+
+  <h2>GA4 Data Example</h2>
+  <p>Google Analytics 4 surfaces the following data streams in MI:</p>
+  <ul>
+    <li>Page data</li>
+    <li>Event view data</li>
+    <li>Session source / session medium</li>
+    <li>Form fill events</li>
+  </ul>
+
+  <h2>Credit Consumption</h2>
+  <table>
+    <tr><th>Activity</th><th>Metered?</th><th>Credit Type</th></tr>
+    <tr><td>Batch data ingestion</td><td><span class="tag unmetered">Unmetered</span></td><td>No flex credits consumed</td></tr>
+    <tr><td>Batch data transforms</td><td><span class="tag metered">Metered</span></td><td>Flex credits consumed</td></tr>
+    <tr><td>Data enrichments</td><td><span class="tag unmetered">Unmetered</span></td><td>No credits consumed</td></tr>
+    <tr><td>MMM model runs</td><td><span class="tag flex">Flex credits</span></td><td>Exact cost TBC — model runs consume credits</td></tr>
+  </table>
+
+  <div class="callout important">
+    <span class="icon">🔴</span>
+    <div>Most data discrepancy and ingestion issues stem from <strong>re-processing data streams</strong>. This is the first place to look when troubleshooting data quality issues.</div>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('unified-data-model',null)">Unified Data Model</a>
+    <a href="#" class="next" onclick="showPage('harmonization',null)">Data Harmonization</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Harmonization -->
+<!-- ================================================================ -->
+<div class="page" id="page-harmonization">
+  <div class="breadcrumb">Data Foundation › <span>Data Harmonization</span></div>
+  <h1>Data Harmonization</h1>
+  <p>Harmonization is the process of standardising raw, inconsistent marketing data into clean, reportable dimensions. Marketing Intelligence provides native harmonization through <strong>Patterns</strong> and the SDM — no SQL required for most use cases.</p>
+
+  <h2>What is a Pattern?</h2>
+  <p>A Pattern is a rule that extracts a structured dimension from a raw string field — typically the campaign name, ad set name, or UTM parameter. Because marketers encode metadata in naming conventions (e.g., <code>UK_Q4_ProspectingF25-34_VideoV1</code>), Patterns parse these strings into usable dimensions.</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>Once a Pattern is created, it applies retroactively — <strong>pre-existing fields can immediately be selected</strong> in reports using the new dimension. No re-ingestion needed.</div>
+  </div>
+
+  <h2>Common Use Cases</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📣</div>
+      <h3>Campaign Dimension</h3>
+      <p>Extract campaign theme, objective, or region from campaign name strings.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Audience (Ad Set)</h3>
+      <p>Parse gender, age bracket, interest, or audience type. E.g. <code>Female_25-34</code> → Gender: Female, Age: 25–34.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎨</div>
+      <h3>Creative Attributes</h3>
+      <p>Extract format (video/static), size (1080x1080), or variant (A/B/C) from ad names.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <h3>Geography</h3>
+      <p>Parse country, region, or market code. E.g. <code>Country Q4</code> → Country: extracted, Quarter: Q4.</p>
+    </div>
+  </div>
+
+  <h2>Breaking Apart a Naming Convention</h2>
+  <p>Example campaign name: <code>UK_ProspectingF25-34_Video_Q4_v2</code></p>
+  <table>
+    <tr><th>Position</th><th>Raw value</th><th>Dimension extracted</th></tr>
+    <tr><td>1</td><td><code>UK</code></td><td>Market / Country</td></tr>
+    <tr><td>2</td><td><code>ProspectingF25-34</code></td><td>Objective + Gender + Age</td></tr>
+    <tr><td>3</td><td><code>Video</code></td><td>Creative Format</td></tr>
+    <tr><td>4</td><td><code>Q4</code></td><td>Quarter / Flight Period</td></tr>
+    <tr><td>5</td><td><code>v2</code></td><td>Creative Variant</td></tr>
+  </table>
+
+  <div class="se-tip">
+    <div class="label">SE Discovery Tip</div>
+    <p>Always ask the customer about their naming conventions and UTM taxonomy during discovery. If the metadata isn't captured in the name or UTMs, Patterns can't create it. As the saying goes: <em>"It's not magic — you have to capture the data."</em></p>
+  </div>
+
+  <h2>Custom Dimensions</h2>
+  <p>Beyond Patterns, customers can create <strong>custom dimensions</strong> outside the standard SDM using the custom SDM extension. This is for dimensions that don't fit any of the standard pattern extractions — for example, a proprietary campaign classification system.</p>
+
+  <h2>Harmonization vs. Enrichment</h2>
+  <table>
+    <tr><th></th><th>Harmonization (Patterns)</th><th>Enrichments</th></tr>
+    <tr><td><strong>Source</strong></td><td>Existing field values in MI</td><td>Lookup / mapping file</td></tr>
+    <tr><td><strong>Method</strong></td><td>String splitting / regex parsing</td><td>Row-by-row lookup (like a VLOOKUP)</td></tr>
+    <tr><td><strong>Best for</strong></td><td>Parsing campaign naming conventions</td><td>Mapping codes → labels, cleansing, grouping</td></tr>
+    <tr><td><strong>Credit cost</strong></td><td>Unmetered</td><td>Unmetered</td></tr>
+  </table>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('data-pipelines',null)">Data Pipelines</a>
+    <a href="#" class="next" onclick="showPage('enrichments',null)">Data Enrichments</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Enrichments -->
+<!-- ================================================================ -->
+<div class="page" id="page-enrichments">
+  <div class="breadcrumb">Data Foundation › <span>Data Enrichments</span></div>
+  <h1>Data Enrichments</h1>
+  <p>Enrichments allow customers to augment their harmonized marketing data with additional classification data via file-based lookups. Think of it as a VLOOKUP applied to your MI data — matching a code or key in one column to a label or category in another.</p>
+
+  <h2>Key Characteristics</h2>
+  <ul>
+    <li><span class="tag unmetered">Unmetered</span> — no flex credit consumption</li>
+    <li>File-based: a two-column lookup (key → value)</li>
+    <li>Applied line by line across the data</li>
+    <li>Everything in MI can be explored via <strong>Data Explorer</strong></li>
+    <li>All use cases can be validated independently through Data Explorer</li>
+  </ul>
+
+  <h2>When to Use Enrichments vs. Data Transforms</h2>
+
+  <table>
+    <tr><th>Scenario</th><th>Recommended approach</th></tr>
+    <tr><td>Simple code-to-label mapping (e.g., "001" → "EMEA")</td><td>Enrichment</td></tr>
+    <tr><td>Cleansing / grouping raw values</td><td>Enrichment (good use case)</td></tr>
+    <tr><td>Multi-step logic, complex transformations</td><td>Data Transform (better suited)</td></tr>
+    <tr><td>Output needed outside MI (e.g., for Segmentation in Data Cloud)</td><td>Data Transform</td></tr>
+  </table>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>Multi-step enrichment logic is <strong>better handled with Data Transforms</strong>, especially if the enriched data needs to flow outside MI for use in segmentation or other Data Cloud workloads.</div>
+  </div>
+
+  <h2>Common Enrichment Scenarios</h2>
+  <ul>
+    <li>Mapping campaign IDs to business unit labels</li>
+    <li>Translating platform-specific audience codes to standardised audience segments</li>
+    <li>Grouping raw creative format values (e.g., "15s_video", "30s_video", "6s_bumper" → "Video")</li>
+    <li>Mapping UTM source values to channel taxonomy</li>
+  </ul>
+
+  <div class="se-tip">
+    <div class="label">SE Guidance</div>
+    <p>Enrichments are a quick win for customers with messy lookup tables — especially those migrating from manual Excel-based reporting. The key qualification question: does the customer have a stable lookup table (e.g., cost centre codes), or do they need computed logic? Stable lookup → Enrichment. Logic → Data Transform.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('harmonization',null)">Data Harmonization</a>
+    <a href="#" class="next" onclick="showPage('anchor-campaigns',null)">Anchor Campaigns</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Anchor Campaigns -->
+<!-- ================================================================ -->
+<div class="page" id="page-anchor-campaigns">
+  <div class="breadcrumb">Campaign & Measurement › <span>Anchor Campaigns</span></div>
+  <h1>Anchor Campaigns</h1>
+  <p>When MI retrieves all campaigns from connected platforms, the raw list can be enormous — hundreds or thousands of line items across platforms, naming variations, and time periods. Anchor Campaigns let customers group this raw campaign data into <strong>meaningful marketing initiatives</strong> that reflect actual business goals.</p>
+
+  <h2>The Core Concept</h2>
+  <p>Think of an Anchor Campaign as a <strong>smart filter</strong> — a logical grouping rule that says "pull together everything that belongs to this initiative, regardless of platform or naming."</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>An Anchor Campaign is not a campaign object in the ad platform — it's a MI-layer construct that aggregates matching campaigns across channels into a single measurable entity.</div>
+  </div>
+
+  <h2>How it Works</h2>
+  <ol>
+    <li>Define a <strong>filter rule</strong>: e.g., Campaign Name contains "BrandAwareness_Q4"</li>
+    <li>MI pulls in all matching campaigns across all connected channels and sources</li>
+    <li>You can add <strong>multiple filter conditions</strong> (AND/OR logic) for more precise grouping</li>
+    <li>All matching data rolls up into the Anchor Campaign for unified reporting</li>
+  </ol>
+
+  <h2>Example: Multi-Channel Brand Campaign</h2>
+  <table>
+    <tr><th>Platform</th><th>Campaign Name</th><th>Matched?</th></tr>
+    <tr><td>Google Ads</td><td>BrandAwareness_Q4_Search_UK</td><td>✅ Yes — contains "BrandAwareness_Q4"</td></tr>
+    <tr><td>Meta</td><td>BrandAwareness_Q4_Prospecting_UK</td><td>✅ Yes</td></tr>
+    <tr><td>LinkedIn</td><td>BrandAwareness_Q4_B2B_UK</td><td>✅ Yes</td></tr>
+    <tr><td>Display</td><td>RetargetingQ4_Display</td><td>❌ No — different prefix</td></tr>
+  </table>
+
+  <h2>Multi-Filter Anchor Campaigns</h2>
+  <p>You can take Anchor Campaigns further by combining multiple filter conditions:</p>
+  <ul>
+    <li>Campaign name contains "BrandAwareness_Q4" <strong>AND</strong> Channel = "Paid Social"</li>
+    <li>Campaign name contains "Summer" <strong>OR</strong> Campaign name contains "July"</li>
+    <li>Market = "UK" <strong>AND</strong> Objective contains "Prospecting"</li>
+  </ul>
+
+  <div class="se-tip">
+    <div class="label">SE Discovery Question</div>
+    <p>Ask customers: "When you think about a campaign, do you think about individual platform line items, or do you think about the broader initiative across channels?" The answer usually reveals whether Anchor Campaigns will be a key feature for them. Most enterprise marketers think in initiatives — Anchor Campaigns bridge that gap.</p>
+  </div>
+
+  <h2>Anchor Campaigns &amp; Attribution</h2>
+  <p>Anchor Campaigns feed directly into the measurement layer. Once defined, they become the unit of measurement for:</p>
+  <ul>
+    <li>Cross-channel performance reporting</li>
+    <li>MTA conversion attribution at the campaign level</li>
+    <li>MMM contribution analysis by initiative</li>
+    <li>Goal tracking and progress measurement</li>
+  </ul>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('enrichments',null)">Data Enrichments</a>
+    <a href="#" class="next" onclick="showPage('attribution',null)">Attribution & MTA</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Attribution -->
+<!-- ================================================================ -->
+<div class="page" id="page-attribution">
+  <div class="breadcrumb">Campaign & Measurement › <span>Attribution & MTA</span></div>
+  <h1>Attribution &amp; Multi-Touch Attribution</h1>
+  <p>Attribution is the practice of assigning credit to marketing touchpoints that contributed to a conversion. MI supports the full spectrum of attribution approaches — from simple single-channel reporting to probabilistic multi-touch attribution.</p>
+
+  <h2>The Measurement Framework</h2>
+  <p>Always start a measurement conversation with the customer's framework before jumping to methods:</p>
+
+  <div class="flow">
+    <div class="flow-step">1. Objectives<br><small>Clear &amp; defined goals</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step teal">2. Metrics<br><small>Quantifiable KPIs</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step purple">3. Data Sources<br><small>Connectivity, cadence</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step orange">4. Methods<br><small>How to interpret</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step green">5. AI &amp; Stakeholders<br><small>Who, what tooling</small></div>
+  </div>
+
+  <h2>Attribution Methods in MI</h2>
+
+  <details open>
+    <summary>Single-Channel Performance</summary>
+    <div class="detail-body">
+      <p>Reporting on each channel in isolation. Useful as a baseline but doesn't account for cross-channel interactions. MI supports this natively, and is often where customers start their journey.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Cross-Channel Performance</summary>
+    <div class="detail-body">
+      <p>MI's strength — reporting at the media and marketing dimension level across channels simultaneously. The default model is <strong>last-touch</strong> unless de-duplication rules are configured. This is an extension of single-channel with the channels combined in a unified view.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>A/B &amp; Incrementality Testing</summary>
+    <div class="detail-body">
+      <p>Showing an ad to a group vs. a holdout group to measure true causal impact. Expensive to run consistently and operationally complex — the whole business needs to agree on the holdout strategy.</p>
+      <ul>
+        <li>Pairs well with segment-based targeting and creative A/B tests</li>
+        <li>Ties to audience suppression in paid platforms</li>
+      </ul>
+      <div class="callout warning">
+        <span class="icon">⚠️</span>
+        <div>MI does not have a native experimentation module today. This is a known gap — customers need to manage holdouts externally.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Multi-Touch Attribution (MTA)</summary>
+    <div class="detail-body">
+      <p>MTA credits individual touchpoints along the customer journey proportionally. This is MI's most sophisticated attribution capability.</p>
+
+      <h4>Prerequisites for MTA</h4>
+      <ul>
+        <li><strong>Timestamp</strong> on every touchpoint event</li>
+        <li><strong>User ID</strong> — a consistent identifier across sessions (not GCLID alone)</li>
+        <li><strong>Channel tagging</strong> on every touchpoint</li>
+        <li><strong>Campaign tagging</strong> (UTMs, click IDs, etc.)</li>
+      </ul>
+
+      <div class="callout important">
+        <span class="icon">🔴</span>
+        <div><strong>GCLID (Google Click ID) alone does not work for MTA.</strong> MI requires a resolvable user identity, not just a click ID. The customer must be able to identify the same person across paid ads, owned channels, and CRM.</div>
+      </div>
+
+      <h4>MTA Limitations &amp; Design Decisions</h4>
+      <ul>
+        <li>MTA operates on <strong>clicks only</strong> — not impressions</li>
+        <li>Each MTA configuration supports <strong>one conversion event</strong></li>
+        <li>Customers can create multiple MTA configs for multiple conversion events</li>
+        <li>Conversion doesn't have to be end-of-funnel (e.g., add to cart, form fill, account open, loyalty redemption)</li>
+        <li>Opportunity status changes are not natively retained — only closed. For mid-funnel stages (e.g., Stage 4 → 5), a data transformation to create an event is required</li>
+      </ul>
+
+      <h4>Engagement Signals</h4>
+      <p>Engagement Signals are the foundational tracking events that underpin MTA. They record individual email clicks, ad clicks, and other interactions at the user level. Key points:</p>
+      <ul>
+        <li>A conversion metric <strong>must</strong> have an associated Engagement Signal</li>
+        <li>Engagement Signals is a concept shared across Sales Cloud, B2B Marketing (MCAE), and other Salesforce products — it's a foundational feature with broad applicability</li>
+        <li>Tracks individual email clicks, ad interactions, etc.</li>
+      </ul>
+
+      <h4>MTA Output Storage</h4>
+      <div class="callout info">
+        <span class="icon">ℹ️</span>
+        <div>MTA output is stored in the <strong>SDM</strong>. The inputs come from Data Cloud (D360) — not stored in the SDM. This is an important architecture distinction for data governance conversations.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Marketing Mix Modeling (MMM)</summary>
+    <div class="detail-body">
+      <p>See the dedicated MMM page for full details. MMM complements MTA — when used together, the two models should improve each other's accuracy.</p>
+    </div>
+  </details>
+
+  <h2>Identity Resolution — The Hard Part</h2>
+  <p>The most common customer challenge in MTA is <strong>identity resolution</strong> — matching the same individual across paid advertising, web sessions, owned channels, and CRM.</p>
+
+  <table>
+    <tr><th>Identity scenario</th><th>Notes</th></tr>
+    <tr><td>Salesforce-native data (CRM leads, MCE email)</td><td>Easiest — Salesforce holds the identity, SDK can join it</td></tr>
+    <tr><td>Web / paid ads (cookies, click IDs)</td><td>Requires the user to have identified themselves at some point. SDK preserves historic identity data to enable the join.</td></tr>
+    <tr><td>GCLID alone</td><td>Not sufficient — does not resolve to a unified identity</td></tr>
+  </table>
+
+  <div class="se-tip">
+    <div class="label">SE Framing</div>
+    <p>Identity resolution is fundamentally a customer data problem, not a MI problem. Salesforce (via the SDK) keeps historic identity data to enable the join — but only if the customer identified themselves at some point. The question to ask: "Can you tell me how you currently identify George across a paid ad click and a sales call?" Their answer reveals the complexity of the MTA deployment.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('anchor-campaigns',null)">Anchor Campaigns</a>
+    <a href="#" class="next" onclick="showPage('mmm',null)">Marketing Mix Modeling</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: MMM -->
+<!-- ================================================================ -->
+<div class="page" id="page-mmm">
+  <div class="breadcrumb">Campaign & Measurement › <span>Marketing Mix Modeling</span></div>
+  <h1>Marketing Mix Modeling</h1>
+  <p>Marketing Mix Modeling (MMM) is a statistical approach that measures how each marketing channel contributes to revenue (or any conversion KPI) across the entire media mix — paid and owned. Unlike MTA, it works at an aggregate level using historical data, not individual user paths.</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>Look for <strong>Meridian</strong> as a tab within the Planning Center.</div>
+  </div>
+
+  <h2>How MMM Works</h2>
+  <ol>
+    <li>Load <strong>2+ years</strong> of sales/conversion data</li>
+    <li>Overlay media spend and impression data</li>
+    <li>Run a regression analysis to find correlations between media activity and conversion variances</li>
+    <li>Model derives <strong>baseline</strong> (what you'd achieve without any media) and <strong>media contribution</strong> (the uplift from each channel)</li>
+    <li>Use outputs for scenario planning, what-if analysis, and budget optimization</li>
+  </ol>
+
+  <div class="flow">
+    <div class="flow-step">Historical Conversions<br><small>2+ years</small></div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-step teal">Media Spend &amp; Impressions</div>
+    <div class="flow-arrow">+</div>
+    <div class="flow-step purple">External Factors<br><small>Seasonality, weather…</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step orange">Regression Model</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step green">Baseline + Channel Contribution</div>
+  </div>
+
+  <h2>Google Meridian — The Model</h2>
+  <p>MI uses <strong>Google Meridian</strong>, an open-source MMM model, as the underlying statistical engine.</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>The model itself is open source — anyone can run it. <strong>Salesforce's value is not the model — it's what we do with the model.</strong> Meridian connected to MTA, Budget Optimization Agent, Scenario Planning, and the broader MI measurement layer is the differentiator.</div>
+  </div>
+
+  <h2>MMM Configuration Steps</h2>
+
+  <details open>
+    <summary>1. Marketing Data Sources</summary>
+    <div class="detail-body">
+      <p>Select which data sources feed the model:</p>
+      <ul>
+        <li><strong>API Sources</strong> — from MI pipelines (MI <em>must</em> be set up with pipelines first)</li>
+        <li><strong>Owned Media Data Sources</strong> — anything native to Salesforce (email opens, SMS, WhatsApp)</li>
+        <li><strong>Total Connect Sources</strong> — e.g., TV ratings, offline spend</li>
+      </ul>
+      <div class="callout warning">
+        <span class="icon">⚠️</span>
+        <div>MI pipelines must be configured before you can select API sources in MMM. You cannot run MMM on a bare org with no data pipelines.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>2. Data Health &amp; Confidence Score</summary>
+    <div class="detail-body">
+      <p>After connecting sources, MI provides a <strong>data health check</strong> with:</p>
+      <ul>
+        <li>A confidence score indicating model reliability given available data</li>
+        <li>Specific suggestions for improving data coverage and quality</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>3. KPI Configuration</summary>
+    <div class="detail-body">
+      <p>Select the conversion KPI the model will optimize for:</p>
+      <ul>
+        <li>Choose a DMO (e.g., Revenue Event) and the specific revenue field</li>
+        <li>Not every model runs off revenue — it is <strong>conversion-driven</strong></li>
+        <li>Align KPI to the customer's actual business goal (e.g., leads, sales, app installs)</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>4. External Factors</summary>
+    <div class="detail-body">
+      <p>Inject contextual factors that explain variance in performance unrelated to media:</p>
+      <ul>
+        <li>Seasonality / holiday calendars</li>
+        <li>Google Search Query Volume</li>
+        <li>Competitor activity</li>
+        <li>Macroeconomic trends</li>
+        <li>Weather</li>
+        <li><strong>Custom factors</strong> — any data the customer has in Data Cloud (e.g., additional economic indicators)</li>
+      </ul>
+      <div class="callout info">
+        <span class="icon">ℹ️</span>
+        <div>Custom external factors require the data to already be in Data Cloud (D360). Help customers plan for this during discovery.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>5. MTA Integration (Optional)</summary>
+    <div class="detail-body">
+      <p>If the customer also has MTA configured, the MTA model can be added here to improve MMM accuracy. When MTA and MMM are used together, they should mutually reinforce each other's output.</p>
+    </div>
+  </details>
+
+  <h2>Key Concepts</h2>
+
+  <table>
+    <tr><th>Concept</th><th>Definition</th></tr>
+    <tr><td><strong>Baseline</strong></td><td>Revenue/conversions you'd have achieved with zero media spend — organic demand</td></tr>
+    <tr><td><strong>Media Contribution</strong></td><td>The incremental uplift from each channel's media investment</td></tr>
+    <tr><td><strong>Adstock Decay</strong></td><td>How quickly an ad's impact diminishes over time — reflects how long the memory of an ad persists</td></tr>
+    <tr><td><strong>What-if Scenarios</strong></td><td>Simulating the impact of removing/reducing a channel or reallocating budget</td></tr>
+  </table>
+
+  <h2>MMM vs. MTA — When to Use Each</h2>
+  <table>
+    <tr><th></th><th>MTA</th><th>MMM</th></tr>
+    <tr><td><strong>Data needed</strong></td><td>Individual user touchpoints + conversions</td><td>Aggregate spend + conversions over time</td></tr>
+    <tr><td><strong>Granularity</strong></td><td>Individual path / journey level</td><td>Channel / campaign aggregate level</td></tr>
+    <tr><td><strong>Covers impressions?</strong></td><td>No — clicks only</td><td>Yes — all spend including awareness</td></tr>
+    <tr><td><strong>Identity required?</strong></td><td>Yes — user-level ID</td><td>No — aggregate data only</td></tr>
+    <tr><td><strong>Output use</strong></td><td>Journey optimization, next best action</td><td>Budget allocation, scenario planning</td></tr>
+  </table>
+
+  <h2>Time to Value</h2>
+  <p>Traditional MMM projects: months via a consulting engagement. With MI's Meridian integration: <strong>approximately 6 weeks</strong> to a running model. This is a material speed-to-value differentiator in competitive deals.</p>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div><strong>Cost:</strong> MMM is included in the MI product. The model runs consume <span class="tag flex">Flex credits</span> — exact pricing is TBC. The model's prediction window (how far forward it forecasts) is also currently unclear — verify with PM for the latest.</div>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('attribution',null)">Attribution & MTA</a>
+    <a href="#" class="next" onclick="showPage('goals',null)">Measuring Goals</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Goals -->
+<!-- ================================================================ -->
+<div class="page" id="page-goals">
+  <div class="breadcrumb">Campaign & Measurement › <span>Measuring Goals</span></div>
+  <h1>Measuring Goals</h1>
+  <p>Goals in Marketing Intelligence allow marketers to define measurable objectives and track progress against them in a structured, dashboard-ready way. Goals bridge the gap between raw performance data and business outcomes.</p>
+
+  <h2>The Goal Framework</h2>
+  <p>Goals are structured around MI's measurement framework:</p>
+  <ol>
+    <li><strong>Objectives</strong> — the high-level business intent (e.g., increase qualified leads in EMEA by 20%)</li>
+    <li><strong>Metrics</strong> — the quantifiable measures that track progress (e.g., MQL count, cost per lead, lead-to-opportunity conversion rate)</li>
+    <li><strong>Data Sources</strong> — the connected pipelines and CRM data that feed the metric</li>
+    <li><strong>Methods</strong> — the attribution approach used to interpret the metric (single-channel, cross-channel, MTA)</li>
+  </ol>
+
+  <h2>Conversion Events as Goals</h2>
+  <p>Any conversion event configured in MI can be used as a goal metric:</p>
+  <ul>
+    <li>Form fills</li>
+    <li>Leads / MQLs</li>
+    <li>Opportunities (created, or stage-based)</li>
+    <li>Revenue / purchases</li>
+    <li>Add to cart</li>
+    <li>Account opens</li>
+    <li>Loyalty redemptions</li>
+    <li>App installs</li>
+    <li>Email sign-ups</li>
+  </ul>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>Goals don't have to be end-of-funnel. Mid-funnel goals (e.g., "increase engagement with our awareness content") are valid and often more actionable for optimisation conversations.</div>
+  </div>
+
+  <h2>Connecting Goals to Attribution</h2>
+  <p>Goals defined in MI connect directly to:</p>
+  <ul>
+    <li><strong>MTA models</strong> — via Engagement Signals (each conversion event needs an associated engagement signal)</li>
+    <li><strong>MMM</strong> — via the KPI configuration (the goal metric becomes the KPI the model optimises toward)</li>
+    <li><strong>Dashboards</strong> — goals surface as performance indicators and progress trackers</li>
+    <li><strong>Budget Optimization Agent</strong> — budget recommendations are made in service of the defined goal</li>
+  </ul>
+
+  <div class="se-tip">
+    <div class="label">SE Discovery</div>
+    <p>Kick off measurement conversations by asking: "What is ROI to you?" Different stakeholders will give different answers — digital marketing teams often say CPL or ROAS; CMOs often say revenue or pipeline contribution. Surfacing this misalignment early is a valuable discovery output and often opens the door for a broader MI conversation.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('mmm',null)">Marketing Mix Modeling</a>
+    <a href="#" class="next" onclick="showPage('dashboards',null)">Dashboards & Reporting</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Dashboards -->
+<!-- ================================================================ -->
+<div class="page" id="page-dashboards">
+  <div class="breadcrumb">Planning & Activation › <span>Dashboards & Reporting</span></div>
+  <h1>Dashboards &amp; Reporting</h1>
+  <p>Marketing Intelligence surfaces insights through structured dashboards in the Marketing Analytics tab within Salesforce. The reporting layer is designed to serve different levels of the marketing organisation — from channel managers to CMOs.</p>
+
+  <h2>Marketing Analytics Tab</h2>
+  <p>The Marketing Analytics tab is the primary reporting surface in Salesforce for marketing data. Its content varies based on what a customer has licensed:</p>
+
+  <table>
+    <tr><th>Licence / Configuration</th><th>What they see</th></tr>
+    <tr><td>No MI</td><td>Owned Media Performance only (email, SMS sends from MCE)</td></tr>
+    <tr><td>MI deployed, pipelines purchased</td><td>External channels + paid performance + cross-channel view</td></tr>
+    <tr><td>MCE, MCAE, MCN (without MI)</td><td>SDM populated via Data Cloud — owned channels only</td></tr>
+  </table>
+
+  <div class="callout important">
+    <span class="icon">🔴</span>
+    <div>Without MI, customers will <strong>never see paid performance</strong> in their dashboards. If they want all their marketing data — paid + owned — they need MI. This is a key licensing message.</div>
+  </div>
+
+  <h2>MPI — Marketing Performance Intelligence</h2>
+  <p><strong>MPI (Marketing Performance Intelligence)</strong> is the name of the template that is deployed so that MCN (Marketing Cloud Next) customers can access their out-of-the-box reporting.</p>
+  <ul>
+    <li>The new SDM is now all-encompassing — MPI uses it as the foundation</li>
+    <li>MCN customers see the Marketing Analytics tab — with owned media reporting as the base layer</li>
+    <li>Purchasing MI + pipelines unlocks the full view including paid external channels</li>
+  </ul>
+
+  <h2>Dashboard Types</h2>
+  <ul>
+    <li><strong>Channel Performance</strong> — spend, impressions, clicks, CPM, CPC by channel</li>
+    <li><strong>Campaign Performance</strong> — Anchor Campaign-level performance vs. goals</li>
+    <li><strong>Attribution Dashboard</strong> — MTA credit distribution by channel and touchpoint</li>
+    <li><strong>MMM Contribution View</strong> — baseline vs. media contribution by channel</li>
+    <li><strong>Goal Progress</strong> — conversion event actuals vs. targets</li>
+    <li><strong>Budget vs. Actuals</strong> — planned vs. actual spend with pacing</li>
+  </ul>
+
+  <h2>Data Explorer</h2>
+  <p>Every object and enrichment in MI can be explored via the <strong>Data Explorer</strong> — a low-code query interface that allows SEs and admins to validate data at a row level before it surfaces in dashboards. Use this during setup and troubleshooting.</p>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('goals',null)">Measuring Goals</a>
+    <a href="#" class="next" onclick="showPage('budget',null)">Budget Reallocation</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Budget Reallocation -->
+<!-- ================================================================ -->
+<div class="page" id="page-budget">
+  <div class="breadcrumb">Planning & Activation › <span>Budget Reallocation</span></div>
+  <h1>Budget Reallocation &amp; Scenario Planning</h1>
+  <p>One of MI's most compelling differentiators is connecting measurement insights directly to budget decisions. The Planning Center is where MMM outputs drive scenario planning and the Budget Optimization Agent surfaces actionable reallocation recommendations.</p>
+
+  <h2>The Planning Center</h2>
+  <p>The Planning Center is the MI interface for budget planning and optimization. After MMM runs, its outputs flow directly into the Planning Center:</p>
+  <ul>
+    <li>View the Meridian MMM model output (accessible as the <strong>Meridian tab</strong>)</li>
+    <li>Run <strong>what-if scenario analysis</strong> — e.g., "what happens if we cut Meta by 20%?"</li>
+    <li>Simulate turning off individual channels to test their contribution</li>
+    <li>Compare budget scenarios against forecast performance</li>
+  </ul>
+
+  <h2>What-If Scenarios</h2>
+  <p>The MMM model supports interactive scenario planning:</p>
+  <ul>
+    <li>Remove or reduce a channel entirely (e.g., pause TV spend)</li>
+    <li>Reallocate from low-ROI to high-ROI channels</li>
+    <li>Model the impact of budget increases ahead of peak seasons</li>
+    <li>Understand diminishing returns curves per channel</li>
+  </ul>
+
+  <h2>Budget Optimization Agent</h2>
+  <p>The Budget Optimization Agent is an Agentforce-powered AI agent that sits on top of MMM outputs and provides natural language budget recommendations. Rather than having a media strategist manually interpret model outputs, the agent surfaces the recommendation directly:</p>
+  <ul>
+    <li>"Based on this quarter's model, reallocate 15% from Display to Paid Search to maximise lead volume"</li>
+    <li>Recommendations are grounded in the MMM model's channel contribution and ROI calculations</li>
+    <li>The agent can answer follow-up questions about the rationale</li>
+  </ul>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>This is what differentiates MI from "just having Meridian." The model is open source — anyone can run it. What Salesforce provides is the <strong>downstream workflow</strong>: model → planning → agent recommendation → activation. That closed loop is the differentiator.</div>
+  </div>
+
+  <div class="se-tip">
+    <div class="label">Competitive Positioning</div>
+    <p>When a prospect says "we already use MMM via a consultancy," the right response is: "Great — but how long does it take to go from model run to budget decision? With MI, that path is automated, connected, and visible to the whole team in Salesforce." The speed and integration into the planning workflow is the win, not the model itself.</p>
+  </div>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('dashboards',null)">Dashboards & Reporting</a>
+    <a href="#" class="next" onclick="showPage('agentforce',null)">Agentforce in MI</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Agentforce -->
+<!-- ================================================================ -->
+<div class="page" id="page-agentforce">
+  <div class="breadcrumb">Planning & Activation › <span>Agentforce in MI</span></div>
+  <h1>Improving Marketing Strategies with Agentforce</h1>
+  <p>Agentforce brings AI agents directly into Marketing Intelligence workflows — transforming raw measurement data into natural language insights, recommendations, and actions.</p>
+
+  <h2>Key Agentforce Use Cases in MI</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Natural Language Analytics</h3>
+      <p>Ask questions in plain English: "Which channels drove the most leads last month?" The agent queries the unified data model and responds with an answer.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <h3>Budget Recommendations</h3>
+      <p>The Budget Optimization Agent interprets MMM outputs and surfaces specific reallocation recommendations — grounded in model data, not gut feel.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <h3>Performance Insights</h3>
+      <p>Agents proactively surface anomalies, performance shifts, and opportunities without the user having to know which report to open.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Measurement Strategy</h3>
+      <p>Help marketers structure their measurement framework — objectives, metrics, methods — with AI-guided recommendations based on their data maturity.</p>
+    </div>
+  </div>
+
+  <h2>The Unified Measurement Layer</h2>
+  <p>Agentforce in MI is powerful because it operates on the <strong>unified measurement layer</strong> — not siloed platform data. This means:</p>
+  <ul>
+    <li>MTA + MMM + Goals are all accessible to the agent in a single context</li>
+    <li>The agent can answer cross-model questions: "How does our MMM contribution align with what MTA is telling us?"</li>
+    <li>Recommendations are grounded in the full picture, not a single model's output</li>
+  </ul>
+
+  <h2>The Bigger Picture</h2>
+  <p>Google Meridian is open source. MTA models exist elsewhere. But the unique value of Salesforce's approach is:</p>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div><strong>MMM → MTA → Budget Agent → Scenario Planning → Activation</strong> — all in one platform, powered by a single unified data layer. The model is not the product; the connected workflow is.</div>
+  </div>
+
+  <h2>MCP (Model Context Protocol) in MI</h2>
+  <p>MCP is an emerging capability within MI that exposes the unified data layer to AI agents in a standardised way:</p>
+  <ul>
+    <li>Basic use cases: run queries against the SDM via agent</li>
+    <li>Emerging value: governance, data store management, security layer</li>
+    <li>Combative to customers building their own AI tooling — MI provides this natively</li>
+  </ul>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('budget',null)">Budget Reallocation</a>
+    <a href="#" class="next" onclick="showPage('identity',null)">Identity Resolution</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Identity -->
+<!-- ================================================================ -->
+<div class="page" id="page-identity">
+  <div class="breadcrumb">Implementation › <span>Identity Resolution</span></div>
+  <h1>Identity Resolution &amp; the SDK</h1>
+  <p>Identity resolution — matching the same real-world individual across different data sources and sessions — is foundational to MTA and any user-level measurement in MI.</p>
+
+  <h2>Why Identity Matters</h2>
+  <p>MTA requires a <strong>User ID</strong> at the touchpoint level to attribute a conversion back to the marketing journey that drove it. The challenge: the same person may appear as:</p>
+  <ul>
+    <li>A cookie ID on your website</li>
+    <li>A GCLID (Google Click ID) from a paid search click</li>
+    <li>An email address in your CRM</li>
+    <li>A hashed email in a Meta audience</li>
+    <li>An anonymous user ID in a mobile app</li>
+  </ul>
+  <p>Linking these to a single <strong>Unified Individual</strong> is identity resolution.</p>
+
+  <h2>The SDK's Role</h2>
+  <p>The Salesforce SDK (embedded in customer web and mobile properties) maintains historic identity data to enable the cross-session, cross-channel join:</p>
+  <ul>
+    <li>Stores linkage between anonymous IDs and known IDs when a user identifies themselves</li>
+    <li>Enables retrospective resolution — if someone clicks an ad anonymously and later fills in a form, the SDK can join those two events</li>
+    <li>Requires the user to have <strong>identified themselves at some point</strong> — unknown-to-unknown resolution is not possible</li>
+  </ul>
+
+  <div class="callout important">
+    <span class="icon">🔴</span>
+    <div><strong>GCLID alone does not work for MI identity resolution.</strong> Google Click IDs are platform-specific identifiers that cannot be resolved to a unified identity without the SDK or additional first-party data linkage.</div>
+  </div>
+
+  <h2>Who Owns the Identity Problem</h2>
+  <p>Identity resolution is fundamentally a <strong>customer data problem</strong>, not a Salesforce product limitation. The key qualifying questions:</p>
+  <ol>
+    <li>Can you identify the same person across your paid ad clicks and your CRM?</li>
+    <li>Have you deployed the Salesforce SDK on your web and mobile properties?</li>
+    <li>How do you currently handle anonymous-to-known user stitching?</li>
+  </ol>
+
+  <div class="se-tip">
+    <div class="label">SE Guidance</div>
+    <p>The easiest identity scenarios are Salesforce-native data (CRM contacts, MCE email recipients). The hardest are paid media–only touchpoints with no CRM linkage. Help customers understand what their identity coverage looks like before promising MTA outcomes — the SDK can be positioned as a roadmap item if not yet deployed.</p>
+  </div>
+
+  <h2>SDK on the Customer Roadmap</h2>
+  <p>For any user-level data use case (MTA, personalisation, identity-based segmentation), the SDK is required. If a customer doesn't have it deployed, it can be added to their implementation roadmap. It is not a blocker for starting with MI — but it is a dependency for full MTA capability.</p>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('agentforce',null)">Agentforce in MI</a>
+    <a href="#" class="next" onclick="showPage('licensing',null)">Licensing & Credits</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Licensing -->
+<!-- ================================================================ -->
+<div class="page" id="page-licensing">
+  <div class="breadcrumb">Implementation › <span>Licensing & Credits</span></div>
+  <h1>Licensing &amp; Credit Consumption</h1>
+  <p>Understanding how MI is licensed and what consumes credits is essential for accurate scoping and commercial conversations.</p>
+
+  <h2>User Licensing</h2>
+  <table>
+    <tr><th>User Type</th><th>Notes</th></tr>
+    <tr><td>Full Core User (preferred)</td><td>Full Salesforce platform access — preferred user type for MI</td></tr>
+    <tr><td>Identity User (supported)</td><td>Supported, but limited functionality — full core licence preferred</td></tr>
+    <tr><td>Admin requirement</td><td>A core Admin licence is <strong>required</strong> for MI setup and administration</td></tr>
+  </table>
+
+  <h2>Credit Consumption Summary</h2>
+  <table>
+    <tr><th>Activity</th><th>Credit Type</th><th>Notes</th></tr>
+    <tr><td>Batch data ingestion</td><td><span class="tag unmetered">Unmetered</span></td><td>No flex credits consumed — ingesting data is free</td></tr>
+    <tr><td>Batch data transforms</td><td><span class="tag metered">Metered</span></td><td>Flex credits consumed — transforming data costs credits</td></tr>
+    <tr><td>Data enrichments</td><td><span class="tag unmetered">Unmetered</span></td><td>No credits consumed</td></tr>
+    <tr><td>Restatements / sliding windows</td><td><span class="tag unmetered">Unmetered</span></td><td>No cost element — unmetered</td></tr>
+    <tr><td>MMM model runs</td><td><span class="tag flex">Flex credits</span></td><td>Exact pricing TBC — verify with product team</td></tr>
+    <tr><td>MTA model outputs</td><td>Included</td><td>Output stored in SDM — no additional cost per run</td></tr>
+  </table>
+
+  <div class="callout warning">
+    <span class="icon">⚠️</span>
+    <div>MMM credit costs are currently unclear. Do not quote specific costs to customers without verifying with the product or pricing team first.</div>
+  </div>
+
+  <h2>What Requires MI vs. What Doesn't</h2>
+  <table>
+    <tr><th>Capability</th><th>Needs MI?</th></tr>
+    <tr><td>Owned media performance (MCE email/SMS)</td><td>No — available without MI via MCE + Data Cloud</td></tr>
+    <tr><td>Paid channel performance</td><td><strong>Yes</strong> — requires MI + pipelines</td></tr>
+    <tr><td>Cross-channel attribution (MTA)</td><td><strong>Yes</strong></td></tr>
+    <tr><td>Marketing Mix Modeling</td><td><strong>Yes</strong></td></tr>
+    <tr><td>Budget Optimization Agent</td><td><strong>Yes</strong></td></tr>
+    <tr><td>C360 Semantic Data Model deployment</td><td><strong>Yes</strong> — MI deploys the C360 SDM</td></tr>
+    <tr><td>MCE/MCAE/MCN SDM compatibility</td><td>No — these are backwards-compatible by design</td></tr>
+  </table>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('identity',null)">Identity Resolution</a>
+    <a href="#" class="next" onclick="showPage('demo-tips',null)">Demo Tips</a>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PAGE: Demo Tips -->
+<!-- ================================================================ -->
+<div class="page" id="page-demo-tips">
+  <div class="breadcrumb">Implementation › <span>Demo Tips</span></div>
+  <h1>Demo Tips &amp; Discovery Guidance</h1>
+  <p>Getting the most out of MI demos requires upfront discovery. The more you understand the customer's data and naming conventions before the demo, the more relevant and compelling the story.</p>
+
+  <h2>Pre-Demo Discovery Checklist</h2>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>Ask a customer to share their naming conventions, taxonomies, and UTM parameters before the demo. Harmonization and Patterns can then be shown with their actual data structure — infinitely more impactful than generic examples.</div>
+  </div>
+
+  <table>
+    <tr><th>Area</th><th>Discovery Questions</th></tr>
+    <tr><td>Campaign naming</td><td>What does your campaign name structure look like? What metadata is encoded in it?</td></tr>
+    <tr><td>UTM tagging</td><td>How consistent is your UTM tagging across teams and platforms? Do you have a taxonomy doc?</td></tr>
+    <tr><td>Measurement maturity</td><td>What does ROI mean to you today? How do you currently measure cross-channel performance?</td></tr>
+    <tr><td>Identity</td><td>Can you identify the same user across paid ads and CRM today? Do you have the Salesforce SDK deployed?</td></tr>
+    <tr><td>Data sources</td><td>Which channels are you running? What's your primary paid media mix?</td></tr>
+    <tr><td>Conversion events</td><td>What actions do you consider a conversion? Only final sale, or mid-funnel events too?</td></tr>
+    <tr><td>Reporting consumers</td><td>Who uses marketing reports today? What tools do they use? What decisions do they make?</td></tr>
+  </table>
+
+  <h2>Key Messaging Points by Persona</h2>
+
+  <details open>
+    <summary>CMO / VP Marketing</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Unified view of all marketing investment in one place — paid and owned</li>
+        <li>Budget optimization backed by statistical modeling, not gut feel</li>
+        <li>AI-powered recommendations that surface to the marketing team without data science overhead</li>
+        <li>"MI turns your data into decisions"</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Digital Marketing / Media Manager</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Stop switching between platform dashboards — one place for all channels</li>
+        <li>Harmonization makes cross-platform reporting consistent and automatable</li>
+        <li>MTA gives credit where credit is due — reduces bias toward last-click</li>
+        <li>Anchor Campaigns let you report on initiatives the way you think about them</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Marketing Analyst / Data Team</summary>
+    <div class="detail-body">
+      <ul>
+        <li>SDM gives a consistent, pre-built schema — no need to rebuild data models from scratch</li>
+        <li>Data Explorer for validation and ad-hoc analysis</li>
+        <li>Patterns and Enrichments for no-code data quality improvements</li>
+        <li>MMM via Google Meridian — open-source model, enterprise workflow</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>CTO / IT / Data Platform</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Built on Data Cloud — not a silo, integrates with the rest of Salesforce</li>
+        <li>MCP for governed AI access to the data layer</li>
+        <li>No ETL vendor sprawl — MI + Data Cloud handles the pipeline</li>
+        <li>MTA output stored in SDM — consistent governance model</li>
+      </ul>
+    </div>
+  </details>
+
+  <h2>Common Objections &amp; Responses</h2>
+  <table>
+    <tr><th>Objection</th><th>Response</th></tr>
+    <tr><td>"We already do MMM with a consulting firm"</td><td>How long does it take to go from model run to a budget decision the team can act on? With MI, that path is automated and in Salesforce.</td></tr>
+    <tr><td>"We have all this in our BI tool already"</td><td>How much engineering effort maintains those pipelines? MI handles ingestion, harmonization, and the measurement layer natively.</td></tr>
+    <tr><td>"We don't have clean naming conventions"</td><td>That's exactly what Patterns and Enrichments solve — you don't need perfect data to start. You build the structure incrementally.</td></tr>
+    <tr><td>"We use Braze / Klaviyo, not MCE"</td><td>External ESPs flow through Data Cloud into MI's SDM — it's more custom work, but it's supported.</td></tr>
+    <tr><td>"MTA sounds complex"</td><td>Start with cross-channel performance and Anchor Campaigns. MTA is a phased journey — it doesn't have to be day one.</td></tr>
+  </table>
+
+  <div class="se-tip">
+    <div class="label">The Golden Quote</div>
+    <p>"If you want to understand clinic but don't have <em>clinic</em> in your campaign name, you aren't going to generate it — it's not magic. You have to capture the data."</p>
+    <p style="margin-top:8px; font-size:13px; color:#555;">Use this when customers expect MI to infer metadata that wasn't captured at the source. It reframes the conversation around data capture discipline, not platform limitation.</p>
+  </div>
+
+  <h2>Quick Qualification Checklist</h2>
+  <ul>
+    <li>✅ Customer runs paid media across 2+ channels</li>
+    <li>✅ They have inconsistent cross-channel reporting today</li>
+    <li>✅ They have a measurement or attribution challenge</li>
+    <li>✅ They want to connect marketing data to CRM/revenue outcomes</li>
+    <li>✅ They are open to 2+ years of historical conversion data for MMM</li>
+    <li>⚠️ Identity resolution gap? → SDK on roadmap</li>
+    <li>⚠️ No UTM/naming discipline? → Harmonization discovery needed first</li>
+  </ul>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('licensing',null)">Licensing & Credits</a>
+    <div></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+const pages = document.querySelectorAll('.page');
+const links = document.querySelectorAll('aside a');
+
+function showPage(id, clickedLink) {
+  // hide all pages
+  pages.forEach(p => p.classList.remove('active'));
+  // show target
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('active');
+
+  // update sidebar active state
+  links.forEach(l => l.classList.remove('active'));
+  if (clickedLink) {
+    clickedLink.classList.add('active');
+  } else {
+    // find matching sidebar link by onclick attr
+    links.forEach(l => {
+      const match = l.getAttribute('onclick');
+      if (match && match.includes("'" + id + "'")) l.classList.add('active');
+    });
+  }
+  window.scrollTo(0, 0);
+}
+
+// Quick-nav pills on overview hero
+document.querySelectorAll('.hero .pill').forEach(pill => {
+  pill.style.cursor = 'pointer';
+});
+</script>
+</body>
+</html>
