@@ -363,6 +363,7 @@
 
   <div class="section-label">Implementation</div>
   <a href="#" onclick="showPage('identity',this)">Identity Resolution</a>
+  <a href="#" onclick="showPage('data-readiness',this)">Data Readiness</a>
   <a href="#" onclick="showPage('licensing',this)">Licensing & Credits</a>
   <a href="#" onclick="showPage('demo-tips',this)">Demo Tips</a>
 </aside>
@@ -1372,13 +1373,163 @@
 
   <div class="page-nav">
     <a href="#" class="prev" onclick="showPage('agentforce',null)">Agentforce in MI</a>
-    <a href="#" class="next" onclick="showPage('licensing',null)">Licensing & Credits</a>
+    <a href="#" class="next" onclick="showPage('data-readiness',null)">Data Readiness</a>
   </div>
 </div>
 
 <!-- ================================================================ -->
 <!-- PAGE: Licensing -->
 <!-- ================================================================ -->
+<div class="page" id="page-data-readiness">
+  <div class="breadcrumb">Implementation › <span>Data Readiness</span></div>
+  <h1>Data Readiness Assessment</h1>
+  <p>Use this before or during discovery to gauge where a customer sits on the readiness spectrum. It tells you which entry point to recommend and what dependencies need to be resolved before they can get full value from MI.</p>
+
+  <div class="callout tip">
+    <span class="icon">💡</span>
+    <div>No customer is ever fully "ready." The goal is to understand where the gaps are so you can position MI as the solution — not a requirement that must be met before you start.</div>
+  </div>
+
+  <h2>Readiness Scorecard</h2>
+  <p style="margin-bottom:16px; color: var(--ink2); font-size:14px;">Score each dimension: <strong style="color:var(--green)">Green</strong> = ready to proceed · <strong style="color:var(--amber)">Amber</strong> = workable with effort · <strong style="color:var(--red)">Red</strong> = blocker or major dependency</p>
+
+  <table>
+    <tr><th>Dimension</th><th style="color:var(--green)">Green</th><th style="color:var(--amber)">Amber</th><th style="color:var(--red)">Red</th></tr>
+    <tr>
+      <td><strong>Data Volume</strong><br><span style="font-size:12px;color:var(--ink3)">Enough history for meaningful models</span></td>
+      <td>2+ years of conversion + spend data accessible</td>
+      <td>12–18 months; some gaps by channel</td>
+      <td>Under 12 months, no historical archive</td>
+    </tr>
+    <tr>
+      <td><strong>Campaign Naming</strong><br><span style="font-size:12px;color:var(--ink3)">Metadata captured at source</span></td>
+      <td>Consistent taxonomy, documented, enforced across teams</td>
+      <td>Partial — some channels clean, others messy</td>
+      <td>No structure; names vary freely by platform/person</td>
+    </tr>
+    <tr>
+      <td><strong>UTM Tagging</strong><br><span style="font-size:12px;color:var(--ink3)">Trackable click paths</span></td>
+      <td>UTMs present, consistent, and validated on all paid channels</td>
+      <td>UTMs used but inconsistent; some gaps in coverage</td>
+      <td>Minimal or no UTM usage; no process to enforce it</td>
+    </tr>
+    <tr>
+      <td><strong>Identity &amp; SDK</strong><br><span style="font-size:12px;color:var(--ink3)">User-level MTA capability</span></td>
+      <td>Salesforce Interaction SDK deployed on web + app</td>
+      <td>SDK partially deployed or on roadmap within 6 months</td>
+      <td>No SDK, no plan — identity stitching not possible yet</td>
+    </tr>
+    <tr>
+      <td><strong>First-Party Data</strong><br><span style="font-size:12px;color:var(--ink3)">Consented identifiers at scale</span></td>
+      <td>Consistent customer ID across CRM + digital; consent in place</td>
+      <td>Some first-party data; consent posture unclear or partial</td>
+      <td>Relies entirely on third-party cookies; no first-party strategy</td>
+    </tr>
+    <tr>
+      <td><strong>Conversion Definition</strong><br><span style="font-size:12px;color:var(--ink3)">Agreed measurement events</span></td>
+      <td>Clear conversion events defined and tracked across funnel</td>
+      <td>Conversion defined for final event only; mid-funnel not tracked</td>
+      <td>No agreed conversion definition; teams measure different things</td>
+    </tr>
+    <tr>
+      <td><strong>Data Cloud Readiness</strong><br><span style="font-size:12px;color:var(--ink3)">MI's data foundation</span></td>
+      <td>Data Cloud active with ingestion pipelines in use</td>
+      <td>Data Cloud provisioned; not yet actively used</td>
+      <td>No Data Cloud — full implementation required before MI can start</td>
+    </tr>
+    <tr>
+      <td><strong>Stakeholder Alignment</strong><br><span style="font-size:12px;color:var(--ink3)">Internal ownership of measurement</span></td>
+      <td>Marketing, analytics and IT aligned; exec sponsor in place</td>
+      <td>Marketing team keen; IT or analytics buy-in still needed</td>
+      <td>No clear owner; measurement seen as a future-state problem</td>
+    </tr>
+  </table>
+
+  <h2>Blockers vs. Dependencies</h2>
+  <p style="margin-bottom:16px; color:var(--ink2); font-size:14px;">A <strong>blocker</strong> stops MI from launching. A <strong>dependency</strong> limits the depth of what MI can do — but doesn't prevent starting.</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+    <div style="background:rgba(192,33,26,0.06); border:1px solid rgba(192,33,26,0.2); border-radius:12px; padding:20px;">
+      <div style="font-size:13px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px;">Hard Blockers</div>
+      <ul style="font-size:14px; line-height:1.7; padding-left:18px;">
+        <li>No Data Cloud license or active instance</li>
+        <li>No data accessible from paid channels (locked APIs, no export)</li>
+        <li>Under 6 months of conversion history</li>
+        <li>No agreed definition of a conversion event</li>
+      </ul>
+    </div>
+    <div style="background:rgba(192,107,0,0.06); border:1px solid rgba(192,107,0,0.2); border-radius:12px; padding:20px;">
+      <div style="font-size:13px; font-weight:700; color:var(--amber); text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px;">Dependencies (limits scope, not launch)</div>
+      <ul style="font-size:14px; line-height:1.7; padding-left:18px;">
+        <li>No SDK → MTA not available; channel-level attribution still works</li>
+        <li>Messy naming → Harmonization phase required before Patterns unlock full value</li>
+        <li>No first-party data strategy → limits identity resolution depth</li>
+        <li>Short history → MMM runs but with lower confidence; grows over time</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Recommended Entry Points by Readiness</h2>
+
+  <details open>
+    <summary>High Readiness (mostly Green)</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Start with full data ingestion across all channels + Data Cloud activation</li>
+        <li>Build Anchor Campaigns immediately with their existing naming structure</li>
+        <li>MTA pilot in parallel — SDK assumed deployed or imminent</li>
+        <li>MMM can run within 60–90 days with 2+ years of data</li>
+        <li>Position MI as the measurement system of record from day one</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Medium Readiness (mix of Green and Amber)</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Start with cross-channel performance and unified dashboard — quick win</li>
+        <li>Use Harmonization and Patterns to fix naming discipline as part of the engagement</li>
+        <li>Defer MTA to Phase 2 pending SDK deployment</li>
+        <li>MMM if 12+ months of data exists — lower confidence, but directionally valid</li>
+        <li>Build toward MTA in Phase 2 — set expectation upfront</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Low Readiness (Red flags present)</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Don't lead with the full MI vision — scope will overwhelm and stall the deal</li>
+        <li>Start the data foundation conversation: Data Cloud, naming discipline, SDK roadmap</li>
+        <li>Use MI as the destination to justify the data hygiene investment</li>
+        <li>Identify a single quick win: even one channel in a unified dashboard is a proof point</li>
+        <li>Flag to AE: this is a phased land — 6–12 month runway to full value</li>
+      </ul>
+    </div>
+  </details>
+
+  <h2>Quick Qualification Checklist</h2>
+  <ul>
+    <li>✅ Runs paid media across 2+ channels</li>
+    <li>✅ Has inconsistent or siloed cross-channel reporting today</li>
+    <li>✅ Has an active measurement or attribution challenge</li>
+    <li>✅ Wants to connect marketing data to CRM or revenue outcomes</li>
+    <li>✅ Has 12+ months of conversion data accessible (2+ years preferred for MMM)</li>
+    <li>✅ Has or is planning Data Cloud</li>
+    <li>⚠️ Identity resolution gap? → SDK on roadmap is sufficient to proceed</li>
+    <li>⚠️ No UTM or naming discipline? → Scope a Harmonization phase before MTA</li>
+    <li>🚫 No Data Cloud and no plan → escalate to AE; MI cannot land without it</li>
+    <li>🚫 No accessible conversion data → defer until data foundation is in place</li>
+  </ul>
+
+  <div class="page-nav">
+    <a href="#" class="prev" onclick="showPage('identity',null)">Identity Resolution</a>
+    <a href="#" class="next" onclick="showPage('licensing',null)">Licensing & Credits</a>
+  </div>
+</div>
+
 <div class="page" id="page-licensing">
   <div class="breadcrumb">Implementation › <span>Licensing & Credits</span></div>
   <h1>Licensing &amp; Credit Consumption</h1>
@@ -1421,7 +1572,7 @@
   </table>
 
   <div class="page-nav">
-    <a href="#" class="prev" onclick="showPage('identity',null)">Identity Resolution</a>
+    <a href="#" class="prev" onclick="showPage('data-readiness',null)">Data Readiness</a>
     <a href="#" class="next" onclick="showPage('demo-tips',null)">Demo Tips</a>
   </div>
 </div>
@@ -1434,23 +1585,82 @@
   <h1>Demo Tips &amp; Discovery Guidance</h1>
   <p>Getting the most out of MI demos requires upfront discovery. The more you understand the customer's data and naming conventions before the demo, the more relevant and compelling the story.</p>
 
-  <h2>Pre-Demo Discovery Checklist</h2>
+  <h2>Discovery Questions</h2>
 
   <div class="callout tip">
     <span class="icon">💡</span>
     <div>Ask a customer to share their naming conventions, taxonomies, and UTM parameters before the demo. Harmonization and Patterns can then be shown with their actual data structure — infinitely more impactful than generic examples.</div>
   </div>
 
-  <table>
-    <tr><th>Area</th><th>Discovery Questions</th></tr>
-    <tr><td>Campaign naming</td><td>What does your campaign name structure look like? What metadata is encoded in it?</td></tr>
-    <tr><td>UTM tagging</td><td>How consistent is your UTM tagging across teams and platforms? Do you have a taxonomy doc?</td></tr>
-    <tr><td>Measurement maturity</td><td>What does ROI mean to you today? How do you currently measure cross-channel performance?</td></tr>
-    <tr><td>Identity</td><td>Can you identify the same user across paid ads and CRM today? Do you have the Salesforce SDK deployed?</td></tr>
-    <tr><td>Data sources</td><td>Which channels are you running? What's your primary paid media mix?</td></tr>
-    <tr><td>Conversion events</td><td>What actions do you consider a conversion? Only final sale, or mid-funnel events too?</td></tr>
-    <tr><td>Reporting consumers</td><td>Who uses marketing reports today? What tools do they use? What decisions do they make?</td></tr>
-  </table>
+  <details open>
+    <summary>Business &amp; Measurement Maturity</summary>
+    <div class="detail-body">
+      <ul>
+        <li>What does marketing ROI mean to your organisation today — revenue, pipeline, MQLs?</li>
+        <li>How do you currently measure cross-channel performance? One dashboard, multiple tools, or spreadsheets?</li>
+        <li>Who owns the marketing measurement conversation — marketing ops, analytics, finance?</li>
+        <li>What decisions do you make with marketing data today, and what decisions are you <em>unable</em> to make?</li>
+        <li>Have you run MMM before? Who owned it, and how long did it take to get a usable output?</li>
+        <li>How often does the CMO ask "which channel is actually driving results?" — and what's the current answer?</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Data Sources &amp; Stack</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Which paid channels are you running today? (Google, Meta, LinkedIn, programmatic, CTV, affiliate…)</li>
+        <li>What's your primary owned channel — email, SMS, push? Is that in Marketing Cloud Engagement today?</li>
+        <li>Where does your conversion or revenue data live? CRM, data warehouse, commerce platform?</li>
+        <li>Do you have a data warehouse or lake (Snowflake, BigQuery, Databricks)? Is MI expected to sit on top of that or replace it?</li>
+        <li>What BI or reporting tools are your analysts using today? How much of that could MI absorb?</li>
+        <li>Are there any channels where the data is locked — no API access, no raw export?</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Campaign Naming &amp; Taxonomy</summary>
+    <div class="detail-body">
+      <ul>
+        <li>What does a typical campaign name look like? Can you share an example?</li>
+        <li>What metadata is encoded in your campaign names — brand, region, product, channel, tactic?</li>
+        <li>Is your naming convention documented and enforced, or does it vary by team and platform?</li>
+        <li>How consistent is UTM tagging across your paid channels? Do you have a taxonomy doc or UTM builder?</li>
+        <li>Who is responsible for campaign setup and tagging — a central team or individual channel owners?</li>
+        <li>Have you had situations where the same campaign had different names across platforms?</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Identity &amp; Technical Readiness</summary>
+    <div class="detail-body">
+      <ul>
+        <li>Can you identify the same user across your paid ads and your CRM today?</li>
+        <li>Do you have the Salesforce Interaction SDK (web + mobile) deployed on your properties?</li>
+        <li>How is your first-party data structured — do you have a consistent customer ID across systems?</li>
+        <li>What's your cookie and consent posture? Are you collecting consented first-party identifiers at scale?</li>
+        <li>Do you have Data Cloud today? Is it actively in use, or just provisioned?</li>
+        <li>Who would own the technical implementation — your internal data engineering team, a SI, or Salesforce PS?</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Conversion &amp; Attribution Goals</summary>
+    <div class="detail-body">
+      <ul>
+        <li>What do you define as a conversion — only final purchase/close, or mid-funnel events like form fill, demo request, free trial?</li>
+        <li>How long is your typical buyer journey? Days, weeks, months?</li>
+        <li>Are you currently using any attribution model — last click, first touch, linear? Who chose it?</li>
+        <li>How much historical conversion data do you have accessible? 1 year? 2+ years?</li>
+        <li>Do you have confidence in the accuracy of your current conversion tracking, or are there known gaps?</li>
+        <li>Is there a business event coming up — budget cycle, campaign planning — where better attribution data would directly change a decision?</li>
+      </ul>
+    </div>
+  </details>
 
   <h2>Key Messaging Points by Persona</h2>
 
