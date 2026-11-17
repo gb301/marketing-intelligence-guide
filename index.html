@@ -256,6 +256,8 @@
   .flow-step.orange { background: #c06b00; }
   .flow-step.green { background: var(--green); }
   .flow-arrow { font-size: 16px; color: var(--ink3); padding: 2px 0 2px 18px; line-height: 1; }
+  .flow.flow-h { flex-direction: row; align-items: center; flex-wrap: nowrap; }
+  .flow.flow-h .flow-arrow { padding: 0 6px; }
 
   /* ── Accordion ── */
   details {
@@ -438,15 +440,15 @@
   </div>
 
   <h2>Architecture at a Glance</h2>
-  <div class="flow">
+  <div class="flow flow-h">
     <div class="flow-step">Raw Data Sources<br><small>APIs, Files, SF Native</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step teal">Data Pipelines<br><small>DLOs / Total Connect</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step purple">Harmonization<br><small>Patterns &amp; SDM</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step orange">Analytics Layer<br><small>MTA / MMM / Goals</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step green">Activation<br><small>Budget / Agentforce</small></div>
   </div>
 
@@ -502,25 +504,25 @@
   </table>
 
   <h2>Data Flow: Google Ads Example</h2>
-  <div class="flow">
+  <div class="flow flow-h">
     <div class="flow-step">Raw API Pull<br><small>Multiple streams</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step teal">Data Transform<br><small>Split into dimensions</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step purple">DLOs<br><small>Output layer</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step green">DMOs<br><small>Auto-mapped to SDM</small></div>
   </div>
 
   <h2>External Email Providers</h2>
   <p>Non-Salesforce email providers (e.g., Braze, Klaviyo, Mailchimp) follow a different path:</p>
-  <div class="flow">
+  <div class="flow flow-h">
     <div class="flow-step">External ESP</div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step teal">Data Cloud Ingestion</div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step purple">Data Transform</div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step green">DMO → SDM</div>
   </div>
 
@@ -854,15 +856,15 @@
   <h2>The Measurement Framework</h2>
   <p>Always start a measurement conversation with the customer's framework before jumping to methods:</p>
 
-  <div class="flow">
+  <div class="flow flow-h">
     <div class="flow-step">1. Objectives<br><small>Clear &amp; defined goals</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step teal">2. Metrics<br><small>Quantifiable KPIs</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step purple">3. Data Sources<br><small>Connectivity, cadence</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step orange">4. Methods<br><small>How to interpret</small></div>
-    <div class="flow-arrow">↓</div>
+    <div class="flow-arrow">→</div>
     <div class="flow-step green">5. AI &amp; Stakeholders<br><small>Who, what tooling</small></div>
   </div>
 
