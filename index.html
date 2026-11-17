@@ -229,20 +229,22 @@
   .flow {
     display: flex;
     align-items: center;
-    gap: 0;
+    flex-wrap: wrap;
+    gap: 4px 0;
     margin: 20px 0;
-    overflow-x: auto;
   }
   .flow-step {
     background: var(--ink);
     color: #fff;
-    padding: 11px 16px;
+    padding: 12px 18px;
     border-radius: 10px;
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 600;
     text-align: center;
-    min-width: 100px;
-    white-space: nowrap;
+    min-width: 140px;
+    max-width: 160px;
+    white-space: normal;
+    line-height: 1.35;
   }
   .flow-step.teal { background: var(--teal); }
   .flow-step.purple { background: var(--purple); }
