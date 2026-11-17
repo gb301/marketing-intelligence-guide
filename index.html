@@ -228,29 +228,34 @@
   /* ── Diagram boxes ── */
   .flow {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 4px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
     margin: 20px 0;
   }
   .flow-step {
     background: var(--ink);
     color: #fff;
-    padding: 12px 18px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-size: 13px;
     font-weight: 600;
-    text-align: center;
-    min-width: 140px;
-    max-width: 160px;
-    white-space: normal;
+    text-align: left;
+    white-space: nowrap;
     line-height: 1.35;
+  }
+  .flow-step small {
+    display: block;
+    font-weight: 400;
+    font-size: 11.5px;
+    opacity: .8;
+    margin-top: 1px;
   }
   .flow-step.teal { background: var(--teal); }
   .flow-step.purple { background: var(--purple); }
   .flow-step.orange { background: #c06b00; }
   .flow-step.green { background: var(--green); }
-  .flow-arrow { font-size: 18px; color: var(--line); padding: 0 6px; }
+  .flow-arrow { font-size: 16px; color: var(--ink3); padding: 2px 0 2px 18px; line-height: 1; }
 
   /* ── Accordion ── */
   details {
@@ -435,13 +440,13 @@
   <h2>Architecture at a Glance</h2>
   <div class="flow">
     <div class="flow-step">Raw Data Sources<br><small>APIs, Files, SF Native</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step teal">Data Pipelines<br><small>DLOs / Total Connect</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step purple">Harmonization<br><small>Patterns &amp; SDM</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step orange">Analytics Layer<br><small>MTA / MMM / Goals</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step green">Activation<br><small>Budget / Agentforce</small></div>
   </div>
 
@@ -499,11 +504,11 @@
   <h2>Data Flow: Google Ads Example</h2>
   <div class="flow">
     <div class="flow-step">Raw API Pull<br><small>Multiple streams</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step teal">Data Transform<br><small>Split into dimensions</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step purple">DLOs<br><small>Output layer</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step green">DMOs<br><small>Auto-mapped to SDM</small></div>
   </div>
 
@@ -511,11 +516,11 @@
   <p>Non-Salesforce email providers (e.g., Braze, Klaviyo, Mailchimp) follow a different path:</p>
   <div class="flow">
     <div class="flow-step">External ESP</div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step teal">Data Cloud Ingestion</div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step purple">Data Transform</div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step green">DMO → SDM</div>
   </div>
 
@@ -851,13 +856,13 @@
 
   <div class="flow">
     <div class="flow-step">1. Objectives<br><small>Clear &amp; defined goals</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step teal">2. Metrics<br><small>Quantifiable KPIs</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step purple">3. Data Sources<br><small>Connectivity, cadence</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step orange">4. Methods<br><small>How to interpret</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step green">5. AI &amp; Stakeholders<br><small>Who, what tooling</small></div>
   </div>
 
@@ -987,13 +992,13 @@
 
   <div class="flow">
     <div class="flow-step">Historical Conversions<br><small>2+ years</small></div>
-    <div class="flow-arrow">+</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step teal">Media Spend &amp; Impressions</div>
-    <div class="flow-arrow">+</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step purple">External Factors<br><small>Seasonality, weather…</small></div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step orange">Regression Model</div>
-    <div class="flow-arrow">→</div>
+    <div class="flow-arrow">↓</div>
     <div class="flow-step green">Baseline + Channel Contribution</div>
   </div>
 
