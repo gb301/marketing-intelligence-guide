@@ -1748,6 +1748,59 @@
     <li>⚠️ No UTM/naming discipline? → Harmonization discovery needed first</li>
   </ul>
 
+  <h2>When MI is Overkill — Qualify It Out Early</h2>
+  <p>Not every measurement conversation is an MI conversation. Use these questions to redirect before the deal goes sideways.</p>
+
+  <details>
+    <summary>Scenario: "We want to track event emails to trade show conversions"</summary>
+    <div class="detail-body">
+      <p>This is a CRM + MC Advanced problem, not MI. Ask:</p>
+      <ul>
+        <li><strong>"When you say conversion — do you mean leads generated, or opportunities created?"</strong> If it's pipeline, Campaign Influence in Sales Cloud already does this natively.</li>
+        <li><strong>"Are your events set up as Campaigns in Salesforce CRM with attendees as Campaign Members?"</strong> If yes, the reporting infrastructure is already there.</li>
+        <li><strong>"Are you sending event emails from MC Advanced today?"</strong> If yes, email engagement already flows into Data Cloud — no MI needed to close this loop.</li>
+        <li><strong>"Are you trying to compare event performance against paid channels like LinkedIn or Google?"</strong> If no — stop here. This is Campaign Influence, not MI.</li>
+      </ul>
+      <div class="callout" style="margin-top:12px;">
+        <span class="icon">💬</span>
+        <div><strong>The redirect line:</strong> "If the goal is understanding whether your event emails drove registrations and pipeline, Salesforce CRM with Campaign Influence and MC Advanced already does that. MI comes in when you want to compare that against paid media spend — LinkedIn, Google, programmatic — in a single attribution model. Is paid media part of this conversation?"</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Scenario: "We just want better email reporting"</summary>
+    <div class="detail-body">
+      <p>MC Advanced natively tracks email engagement, journey performance, and conversion events via Data Cloud. MI is not required. Ask:</p>
+      <ul>
+        <li><strong>"Are you looking to compare email performance against paid channels?"</strong> If no — MC Advanced reporting covers this.</li>
+        <li><strong>"Do you have paid media spend you want to include in the same attribution model?"</strong> If no — MI is overengineered for this need.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Scenario: "We want to prove our events drove pipeline"</summary>
+    <div class="detail-body">
+      <p>Salesforce Campaign Influence is purpose-built for this. Ask:</p>
+      <ul>
+        <li><strong>"Are your events already set up as Salesforce Campaigns?"</strong> If yes — Campaign Influence with a Contact Role model gives you event-to-opportunity attribution today.</li>
+        <li><strong>"Do you need to compare event ROI against paid channels?"</strong> If no — this is a Sales Cloud configuration conversation, not an MI sale.</li>
+        <li><strong>"Is paid media part of the budget you're trying to justify?"</strong> Only if yes does MI enter the picture.</li>
+      </ul>
+    </div>
+  </details>
+
+  <table style="margin-top:20px;">
+    <tr><th>They want…</th><th>Right tool</th><th>MI needed?</th></tr>
+    <tr><td>Email engagement + open/click reporting</td><td>MC Advanced</td><td>No</td></tr>
+    <tr><td>Event pipeline influence</td><td>CRM Campaign Influence</td><td>No</td></tr>
+    <tr><td>Email → event → pipeline tracking</td><td>CRM + MC Advanced</td><td>No</td></tr>
+    <tr><td>Event ROI vs paid channels in one view</td><td>MI</td><td>Yes</td></tr>
+    <tr><td>Cross-channel attribution incl. offline touchpoints</td><td>MI</td><td>Yes</td></tr>
+    <tr><td>MMM with events as a budget line</td><td>MI</td><td>Yes</td></tr>
+  </table>
+
   <div class="page-nav">
     <a href="#" class="prev" onclick="showPage('licensing',null)">Licensing & Credits</a>
     <div></div>
