@@ -715,6 +715,52 @@
     <p>Always ask the customer about their naming conventions and UTM taxonomy during discovery. If the metadata isn't captured in the name or UTMs, Patterns can't create it. As the saying goes: <em>"It's not magic — you have to capture the data."</em></p>
   </div>
 
+  <h2>UTM Parameters — What They Are and What Good Looks Like</h2>
+  <p>UTMs are parameters appended to URLs that tell MI which channel, campaign, and creative drove a web session. They are the primary mechanism for connecting paid media clicks to on-site behaviour and downstream conversion.</p>
+
+  <table>
+    <tr><th>Parameter</th><th>Purpose</th><th>Example</th></tr>
+    <tr><td><code>utm_source</code></td><td>Where the traffic came from</td><td><code>linkedin</code></td></tr>
+    <tr><td><code>utm_medium</code></td><td>The channel type</td><td><code>paid-social</code></td></tr>
+    <tr><td><code>utm_campaign</code></td><td>The campaign name — carries the most analytical value</td><td><code>fy26-q1-event-dreamforce</code></td></tr>
+    <tr><td><code>utm_content</code></td><td>The specific ad or creative variant</td><td><code>banner-v2-cta-register</code></td></tr>
+    <tr><td><code>utm_term</code></td><td>Keyword (paid search only)</td><td><code>marketing-attribution-software</code></td></tr>
+  </table>
+
+  <h2>Campaign Naming Convention for UTMs</h2>
+  <p>The campaign name is where most analytical value lives. A consistent pattern encodes enough metadata that MI can slice by year, quarter, type, and initiative without joining to another table.</p>
+  <p><strong>Recommended pattern:</strong> <code>{fiscal-year}-{quarter}-{type}-{name}</code></p>
+
+  <h2>Cross-Channel Example: One Event, Three Channels</h2>
+  <p>All three tags below point to the same campaign name — so MI can aggregate total event campaign performance across channels, and also break each out individually.</p>
+  <table>
+    <tr><th>Channel</th><th>utm_source</th><th>utm_medium</th><th>utm_campaign</th><th>utm_content</th></tr>
+    <tr><td>LinkedIn</td><td><code>linkedin</code></td><td><code>paid-social</code></td><td><code>fy26-q1-event-dreamforce</code></td><td><code>banner-v2-cta-register</code></td></tr>
+    <tr><td>Google</td><td><code>google</code></td><td><code>paid-search</code></td><td><code>fy26-q1-event-dreamforce</code></td><td><code>rsa-brand-dreamforce</code></td></tr>
+    <tr><td>MC Advanced email</td><td><code>mc-advanced</code></td><td><code>email</code></td><td><code>fy26-q1-event-dreamforce</code></td><td><code>invite-wave1</code></td></tr>
+  </table>
+
+  <h2>Good vs. Bad UTMs</h2>
+  <table>
+    <tr><th>Bad UTM</th><th>Problem</th><th>MI outcome</th></tr>
+    <tr><td><code>utm_campaign=Campaign 1</code></td><td>Generic, no metadata</td><td>Can't group by type, quarter, or initiative</td></tr>
+    <tr><td><code>utm_campaign=Dreamforce</code></td><td>No year or quarter</td><td>FY25 and FY26 Dreamforce merge into one bucket</td></tr>
+    <tr><td><code>utm_source=LinkedIn</code></td><td>Capital L</td><td>Treated as different source from <code>linkedin</code> — data splits</td></tr>
+    <tr><td><code>utm_medium=Social</code></td><td>Inconsistent casing</td><td><code>Social</code> and <code>social</code> become two separate mediums</td></tr>
+    <tr><td>No UTMs at all</td><td>Link untagged</td><td>Traffic appears as direct/organic — paid spend invisible to MI</td></tr>
+    <tr><td><code>utm_campaign=test</code></td><td>QA tag left in production</td><td>Pollutes campaign data with junk sessions</td></tr>
+  </table>
+
+  <div class="callout info">
+    <span class="icon">ℹ️</span>
+    <div>Inconsistent UTM casing (<code>LinkedIn</code> vs <code>linkedin</code>) is one of the most common data quality issues in MI deployments. <strong>Enrichments</strong> can normalise these after the fact — but only if there's enough signal in the value to match against. <code>Campaign 1</code> cannot be enriched into something meaningful.</div>
+  </div>
+
+  <div class="se-tip">
+    <div class="label">SE Discovery Tip</div>
+    <p><em>"Can you paste me an example UTM from a recent campaign?"</em> — one real example tells you immediately whether they have a convention or not. <code>utm_campaign=Spring Promo</code> means you've found your harmonisation conversation before the demo starts.</p>
+  </div>
+
   <h2>Custom Dimensions</h2>
   <p>Beyond Patterns, customers can create <strong>custom dimensions</strong> outside the standard SDM using the custom SDM extension. This is for dimensions that don't fit any of the standard pattern extractions — for example, a proprietary campaign classification system.</p>
 
